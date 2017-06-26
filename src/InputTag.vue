@@ -7,6 +7,11 @@
     digits : new RegExp(/^[\d() \.\:\-\+#]+$/),
     isodate : new RegExp(/^\d{4}[\/\-](0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])$/)
   }
+
+  const events = {
+    onTextInputChange: 'onTextInputChange'
+  }
+
   /*eslint-enable*/
   export default {
     name: 'InputTag',
@@ -71,6 +76,15 @@
           // avoid passing the observer
           this.onChange(JSON.parse(JSON.stringify(this.tags)));
         }
+      },
+    },
+
+    watch: {
+      // watch for change in input text and communicate to parent.
+      // This can be used to compose with an external autocomplete like
+      // feature.
+      newTag(val) {
+        this.$emit(events.onTextInputChange, val);
       },
     },
   };
